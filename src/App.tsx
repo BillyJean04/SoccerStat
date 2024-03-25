@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
-import Header from "@/components/Header.tsx";
-import LeaguesPage from "@/pages/Leagues.tsx";
-import TeamsPage from "@/pages/Teams.tsx";
+import Header from "@/components/Header";
+import LeaguesPage from "@/pages/Leagues";
+import TeamsPage from "@/pages/Teams";
 
 function App() {
     return (

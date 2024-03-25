@@ -8,7 +8,7 @@ import {
     NavigationMenuList,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Separator } from "@/components/ui/separator.tsx";
+import { Separator } from "@/components/ui/separator";
 
 const menuItems = [
     {
