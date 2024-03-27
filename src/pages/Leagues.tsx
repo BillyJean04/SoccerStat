@@ -3,17 +3,19 @@ import { useEffect, useMemo, useState } from "react";
 import Container from "@/components/Container";
 import Pagination from "@/components/Pagination";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { type Competition, getCompetitions } from "@/services/competitions";
 
 export default function LeaguesPage() {
     const [competitions, setCompetitions] = useState<Competition[]>();
     const [currentPage, setCurrentPage] = useState(1);
+    const [search, setSearch] = useState("");
 
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * 9;
         const lastPageIndex = firstPageIndex + 9;
-        return competitions?.slice(firstPageIndex, lastPageIndex);
+        return competitions?.slice(firstPageIndex, lastPageIndex) ?? [];
     }, [competitions, currentPage]);
 
     useEffect(() => {
@@ -32,24 +34,41 @@ export default function LeaguesPage() {
         );
     }
 
+    const filteredData = competitions?.filter((item) => item.name.toString().includes(search));
+
     return (
-        <Container>
-            <div className="flex flex-row flex-wrap gap-3.5 mt-10">
-                {currentTableData?.map(({ area, name, id }) => (
-                    <Card key={id} className="w-[calc(33%-5px)]">
-                        <CardContent className="flex items-center flex-col gap-5 py-5">
-                            <CardTitle>{name}</CardTitle>
-                            <CardDescription>{area.name}</CardDescription>
-                        </CardContent>
-                    </Card>
-                ))}
-                <Pagination
-                    currentPage={currentPage}
-                    pageSize={9}
-                    totalCount={competitions.length}
-                    onPageChange={(page) => setCurrentPage(page)}
-                />
+        <Container className="mt-10">
+            <Input
+                className="flex items-start"
+                placeholder="Поиск"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+            />
+            <div className="flex flex-row flex-wrap gap-3.5 my-10">
+                {search
+                    ? filteredData?.map(({ id, name, area }) => (
+                          <Card key={id} className="w-[calc(33%-5px)]">
+                              <CardContent className="flex items-center flex-col gap-5 py-5">
+                                  <CardTitle>{name}</CardTitle>
+                                  <CardDescription>{area.name}</CardDescription>
+                              </CardContent>
+                          </Card>
+                      ))
+                    : currentTableData?.map(({ id, name, area }) => (
+                          <Card key={id} className="w-[calc(33%-5px)]">
+                              <CardContent className="flex items-center flex-col gap-5 py-5">
+                                  <CardTitle>{name}</CardTitle>
+                                  <CardDescription>{area.name}</CardDescription>
+                              </CardContent>
+                          </Card>
+                      ))}
             </div>
+            <Pagination
+                currentPage={currentPage}
+                pageSize={9}
+                totalCount={search ? currentTableData?.length : filteredData.length}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
         </Container>
     );
 }

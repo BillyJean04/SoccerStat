@@ -22,26 +22,44 @@ interface PaginationProps {
 const Pagination: FC<PaginationProps> = ({ currentPage, totalCount, pageSize, onPageChange }) => {
     const paginationRange = usePagination({ currentPage, totalCount, pageSize, siblingCount: 1 });
 
+    const lastPage = paginationRange ? paginationRange[paginationRange.length - 1] : 1;
+
     return (
         <PaginationBase>
             <PaginationContent>
                 <PaginationItem>
-                    <Button className="bg-transparent hover:bg-transparent text-black">
+                    <Button className="bg-transparent hover:bg-transparent text-black" disabled={currentPage === 1}>
                         <PaginationPrevious onClick={() => onPageChange(Number(currentPage - 1))} />
                     </Button>
                 </PaginationItem>
-                {paginationRange?.map((index) => (
-                    <PaginationItem key={index}>
-                        <PaginationLink isActive={index === currentPage} onClick={() => onPageChange(Number(index))}>
-                            {index}
-                        </PaginationLink>
-                    </PaginationItem>
-                ))}
+                {paginationRange?.map((pageNumber, index) => {
+                    if (pageNumber === "...") {
+                        return (
+                            <PaginationItem key={String(`${pageNumber}${index}`)} className="cursor-pointer">
+                                &#8230;
+                            </PaginationItem>
+                        );
+                    }
+
+                    return (
+                        <PaginationItem key={String(`${pageNumber}${index}`)} className="cursor-pointer">
+                            <PaginationLink
+                                isActive={pageNumber === currentPage}
+                                onClick={() => onPageChange(Number(pageNumber))}
+                            >
+                                {pageNumber}
+                            </PaginationLink>
+                        </PaginationItem>
+                    );
+                })}
                 <PaginationItem>
                     <PaginationEllipsis />
                 </PaginationItem>
                 <PaginationItem>
-                    <Button className="inline-flex bg-transparent hover:bg-transparent text-black">
+                    <Button
+                        className="inline-flex bg-transparent hover:bg-transparent text-black"
+                        disabled={currentPage === lastPage}
+                    >
                         <PaginationNext onClick={() => onPageChange(Number(currentPage + 1))} />
                     </Button>
                 </PaginationItem>

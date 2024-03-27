@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function paginationRange(start: number, end: number) {
-    return Array.from({ length: end - start + 1 }, (_, index) => index + 1);
+    return Array.from({ length: end - start + 1 }, (_, index) => index + start);
 }
