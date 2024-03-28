@@ -19,7 +19,9 @@ export default function LeaguesPage() {
     }, [competitions, currentPage]);
 
     useEffect(() => {
-        getCompetitions().then((competitions) => setCompetitions(competitions));
+        getCompetitions()
+            .then((competitions) => setCompetitions(competitions))
+            .catch((error: Error) => alert(error.message));
     }, []);
 
     if (!competitions) {
