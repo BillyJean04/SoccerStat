@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import Container from "@/components/Container";
 import Pagination from "@/components/Pagination";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useCurrentTableData } from "@/hooks/useCurrentTableData";
 import { type Competition, getCompetitions } from "@/services/competitions";
 
 export default function LeaguesPage() {
@@ -12,12 +14,9 @@ export default function LeaguesPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState("");
 
-    const currentTableData = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * 9;
-        const lastPageIndex = firstPageIndex + 9;
-        return competitions?.slice(firstPageIndex, lastPageIndex) ?? [];
-    }, [competitions, currentPage]);
+    const currentTableData = useCurrentTableData(competitions ?? [], currentPage, 9);
 
+    console.log(currentTableData);
     useEffect(() => {
         getCompetitions()
             .then((competitions) => setCompetitions(competitions))
@@ -50,18 +49,22 @@ export default function LeaguesPage() {
                 {search
                     ? filteredData?.map(({ id, name, area }) => (
                           <Card key={id} className="w-[calc(33%-5px)]">
-                              <CardContent className="flex items-center flex-col gap-5 py-5">
-                                  <CardTitle>{name}</CardTitle>
-                                  <CardDescription>{area.name}</CardDescription>
-                              </CardContent>
+                              <Link to={`/${id}`}>
+                                  <CardContent className="flex items-center flex-col gap-5 py-5">
+                                      <CardTitle>{name}</CardTitle>
+                                      <CardDescription>{area.name}</CardDescription>
+                                  </CardContent>
+                              </Link>
                           </Card>
                       ))
                     : currentTableData?.map(({ id, name, area }) => (
                           <Card key={id} className="w-[calc(33%-5px)]">
-                              <CardContent className="flex items-center flex-col gap-5 py-5">
-                                  <CardTitle>{name}</CardTitle>
-                                  <CardDescription>{area.name}</CardDescription>
-                              </CardContent>
+                              <Link to={`${id}`}>
+                                  <CardContent className="flex items-center flex-col gap-5 py-5">
+                                      <CardTitle>{name}</CardTitle>
+                                      <CardDescription>{area.name}</CardDescription>
+                                  </CardContent>
+                              </Link>
                           </Card>
                       ))}
             </div>

@@ -14,7 +14,7 @@ const menuItems = [
     {
         id: 1,
         title: "Лиги",
-        href: "/",
+        href: "/leagues",
     },
     {
         id: 2,
@@ -36,7 +36,7 @@ const Header = () => {
                         {menuItems.map(({ id, title, href }) => (
                             <NavigationMenuItem key={id} className="cursor-pointer" onClick={() => navigate(href)}>
                                 <NavigationMenuLink
-                                    active={location.pathname === href}
+                                    active={location.pathname.includes(href)}
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     {title}

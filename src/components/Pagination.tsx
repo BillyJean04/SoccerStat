@@ -25,11 +25,17 @@ const Pagination: FC<PaginationProps> = ({ currentPage, totalCount, pageSize, on
     const lastPage = paginationRange ? paginationRange[paginationRange.length - 1] : 1;
 
     return (
-        <PaginationBase>
+        <PaginationBase className="py-5">
             <PaginationContent>
                 <PaginationItem>
-                    <Button className="bg-transparent hover:bg-transparent text-black" disabled={currentPage === 1}>
-                        <PaginationPrevious onClick={() => onPageChange(Number(currentPage - 1))} />
+                    <Button
+                        className="px-0 sm:px-4 bg-transparent hover:bg-transparent text-black"
+                        disabled={currentPage === 1}
+                    >
+                        <PaginationPrevious
+                            className="px-0 sm:px-4 "
+                            onClick={() => onPageChange(Number(currentPage - 1))}
+                        />
                     </Button>
                 </PaginationItem>
                 {paginationRange?.map((pageNumber, index) => {
@@ -44,6 +50,7 @@ const Pagination: FC<PaginationProps> = ({ currentPage, totalCount, pageSize, on
                     return (
                         <PaginationItem key={String(`${pageNumber}${index}`)} className="cursor-pointer">
                             <PaginationLink
+                                className="w-[2rem] sm:w-[2.5rem]"
                                 isActive={pageNumber === currentPage}
                                 onClick={() => onPageChange(Number(pageNumber))}
                             >
@@ -57,10 +64,13 @@ const Pagination: FC<PaginationProps> = ({ currentPage, totalCount, pageSize, on
                 </PaginationItem>
                 <PaginationItem>
                     <Button
-                        className="inline-flex bg-transparent hover:bg-transparent text-black"
+                        className="px-0 sm:px-4 inline-flex bg-transparent hover:bg-transparent text-black"
                         disabled={currentPage === lastPage}
                     >
-                        <PaginationNext onClick={() => onPageChange(Number(currentPage + 1))} />
+                        <PaginationNext
+                            className="px-0 sm:px-4"
+                            onClick={() => onPageChange(Number(currentPage + 1))}
+                        />
                     </Button>
                 </PaginationItem>
             </PaginationContent>
