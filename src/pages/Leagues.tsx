@@ -33,7 +33,10 @@ export default function LeaguesPage() {
                 />
                 <div className="flex flex-row flex-wrap mt-10 gap-3.5">
                     {Array.from({ length: 9 }, (_, index) => index).map((index) => (
-                        <Skeleton key={index} className="h-[125px] w-[calc(33%-5px)] rounded-xl" />
+                        <Skeleton
+                            key={index}
+                            className="h-[125px] w-full md:w-[calc(49%-5px)] xl:w-[calc(32.9%-5px)] rounded-xl"
+                        />
                     ))}
                 </div>
             </Container>
@@ -53,7 +56,7 @@ export default function LeaguesPage() {
             <div className="flex flex-row flex-wrap gap-3.5 my-10">
                 {search
                     ? filteredData?.map(({ id, name, area }) => (
-                          <Card key={id} className="w-[calc(33%-5px)]">
+                          <Card key={id} className="w-full md:w-[calc(49%-5px)] xl:w-[calc(32.9%-5px)]">
                               <Link to={`/${id}`}>
                                   <CardContent className="flex items-center flex-col gap-5 py-5">
                                       <CardTitle>{name}</CardTitle>
@@ -63,7 +66,7 @@ export default function LeaguesPage() {
                           </Card>
                       ))
                     : currentTableData?.map(({ id, name, area }) => (
-                          <Card key={id} className="w-[calc(33%-5px)]">
+                          <Card key={id} className="w-full md:w-[calc(49%-5px)] xl:w-[calc(32.9%-5px)]">
                               <Link to={`${id}`}>
                                   <CardContent className="flex items-center flex-col gap-5 py-5">
                                       <CardTitle>{name}</CardTitle>

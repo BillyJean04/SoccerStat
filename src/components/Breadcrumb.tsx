@@ -8,7 +8,7 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb.tsx";
+} from "@/components/ui/breadcrumb";
 
 interface BreadcrumbProps {
     items: {
@@ -27,23 +27,23 @@ const Breadcrumb: FC<BreadcrumbProps> = ({ items }) => {
                 {items.map(({ id, name, isPage }) => {
                     if (isPage) {
                         return (
-                            <>
-                                <BreadcrumbItem key={id}>
+                            <div key={id} className="flex items-center gap-2">
+                                <BreadcrumbItem>
                                     <BreadcrumbPage>{name}</BreadcrumbPage>
                                 </BreadcrumbItem>
-                            </>
+                            </div>
                         );
                     }
 
                     return (
-                        <>
+                        <div key={id} className="flex items-center gap-2">
                             <BreadcrumbItem>
                                 <BreadcrumbLink className="cursor-pointer" onClick={() => navigate(-1)}>
                                     {name}
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
-                        </>
+                        </div>
                     );
                 })}
             </BreadcrumbList>
