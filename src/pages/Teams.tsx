@@ -27,7 +27,7 @@ export default function TeamsPage() {
             <>
                 <Container className="mt-10">
                     <Input
-                        className="flex items-start"
+                        className="w-full lg:w-1/3"
                         placeholder="Поиск"
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
@@ -50,7 +50,7 @@ export default function TeamsPage() {
     return (
         <Container className="mt-10">
             <Input
-                className="flex items-start"
+                className="w-full lg:w-1/3"
                 placeholder="Поиск"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
