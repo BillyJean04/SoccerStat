@@ -24,7 +24,13 @@ export default function LeaguesPage() {
 
     if (!competitions) {
         return (
-            <Container>
+            <Container className="mt-10">
+                <Input
+                    className="flex items-start"
+                    placeholder="Поиск"
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                />
                 <div className="flex flex-row flex-wrap mt-10 gap-3.5">
                     {Array.from({ length: 9 }, (_, index) => index).map((index) => (
                         <Skeleton key={index} className="h-[125px] w-[calc(33%-5px)] rounded-xl" />

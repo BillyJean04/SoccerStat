@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
     Breadcrumb as BreadcrumbBase,
@@ -13,16 +14,17 @@ interface BreadcrumbProps {
     items: {
         id: number;
         name: string;
-        link?: string;
         isPage: boolean;
     }[];
 }
 
 const Breadcrumb: FC<BreadcrumbProps> = ({ items }) => {
+    const navigate = useNavigate();
+
     return (
         <BreadcrumbBase className="my-10">
             <BreadcrumbList>
-                {items.map(({ id, name, link, isPage }) => {
+                {items.map(({ id, name, isPage }) => {
                     if (isPage) {
                         return (
                             <>
@@ -36,7 +38,9 @@ const Breadcrumb: FC<BreadcrumbProps> = ({ items }) => {
                     return (
                         <>
                             <BreadcrumbItem>
-                                <BreadcrumbLink href={link}>{name}</BreadcrumbLink>
+                                <BreadcrumbLink className="cursor-pointer" onClick={() => navigate(-1)}>
+                                    {name}
+                                </BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                         </>

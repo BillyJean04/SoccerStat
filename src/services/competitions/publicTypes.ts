@@ -1,4 +1,4 @@
-import { StatusStrings } from "@/services/competitions/privateTypes.ts";
+import { MatchBase } from "@/types";
 
 export interface Competition {
     id: number;
@@ -8,32 +8,4 @@ export interface Competition {
     };
 }
 
-export interface Match {
-    id: number;
-    date: string;
-    status: StatusStrings;
-    homeTeam: {
-        id: number;
-        name: string;
-    };
-    awayTeam: {
-        id: number;
-        name: string;
-    };
-    score: {
-        fullTime: {
-            home: number;
-            away: number;
-        };
-        extraTime?: {
-            home: number;
-            away: number;
-        };
-        penalties?: {
-            home: number;
-            away: number;
-        };
-    };
-}
-
-export interface Match {}
+export interface Match extends MatchBase {}

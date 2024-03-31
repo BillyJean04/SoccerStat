@@ -9,15 +9,14 @@ import Pagination from "@/components/Pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useCurrentTableData } from "@/hooks/useCurrentTableData";
-import { Match } from "@/services/competitions";
-import getMatches from "@/services/competitions/getMatches";
 import { Status } from "@/services/competitions/privateTypes";
+import { getTeamMatches, getTeamName, type TeamMatch } from "@/services/teams";
 
 const breadcrumbItems = (name: string) => [
     {
         id: 1,
-        name: "Лиги",
-        link: "/leagues",
+        name: "Команды",
+        link: "/teams",
         isPage: false,
     },
     {
@@ -27,42 +26,42 @@ const breadcrumbItems = (name: string) => [
     },
 ];
 
-export default function LeaguesCalendar() {
-    const [matches, setMatches] = useState<Match[]>();
-    const [competitionName, setCompetitionName] = useState<string>();
+export default function TeamsCalendar() {
+    const [matches, setMatches] = useState<TeamMatch[]>();
+    const [teamName, setTeamName] = useState<string>();
     const [currentPage, setCurrentPage] = useState(1);
     const [dateFrom, setDateFrom] = useState<Date>();
     const [dateTo, setDateTo] = useState<Date>();
+    const { teamId } = useParams();
 
     const currentTableData = useCurrentTableData(matches ?? [], currentPage, 15);
 
-    const { leagueId } = useParams();
-
     useEffect(() => {
-        leagueId &&
-            getMatches(Number(leagueId))
-                .then((data) => {
-                    setMatches(data?.matches);
-                    setCompetitionName(data?.competitionName);
-                })
+        if (teamId) {
+            getTeamMatches(Number(teamId))
+                .then((res) => setMatches(res))
                 .catch((error: Error) => alert(error.message));
-    }, [leagueId]);
+            getTeamName(Number(teamId))
+                .then((res) => setTeamName(res))
+                .catch((error: Error) => alert(error.message));
+        }
+    }, [teamId]);
 
     useEffect(() => {
-        if (leagueId && dateFrom && dateTo) {
-            getMatches(Number(leagueId), {
+        if (teamId && dateFrom && dateTo) {
+            getTeamMatches(Number(teamId), {
                 dateFrom: format(dateFrom, "yyyy-MM-dd"),
                 dateTo: format(dateTo, "yyyy-MM-dd"),
             })
-                .then((matches) => setMatches(matches?.matches))
+                .then((matches) => setMatches(matches))
                 .catch((error: Error) => alert(error.message));
         }
-    }, [dateFrom, dateTo, leagueId]);
+    }, [dateFrom, dateTo, teamId]);
 
     if (!matches) {
         return (
             <Container>
-                <Breadcrumb items={breadcrumbItems(competitionName ?? "")} />
+                <Breadcrumb items={breadcrumbItems(teamName ?? "")} />
                 <Table>
                     <TableBody>
                         {Array.from({ length: 10 }, (_, index) => index).map((index) => (
@@ -80,7 +79,7 @@ export default function LeaguesCalendar() {
 
     return (
         <Container>
-            <Breadcrumb items={breadcrumbItems(competitionName ?? "")} />
+            <Breadcrumb items={breadcrumbItems(teamName ?? "")} />
             <DateFilter dateFrom={dateFrom} dateTo={dateTo} setDateFrom={setDateFrom} setDateTo={setDateTo} />
             <Table className="mt-5">
                 <TableBody>
