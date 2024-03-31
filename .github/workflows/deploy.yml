@@ -43,7 +43,8 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: build
-        env: VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+        env:
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
