@@ -9,17 +9,17 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "@/components/ui/pagination.tsx";
-import usePagination from "@/hooks/usePagination.ts";
+} from "@/components/ui/pagination";
+import usePagination from "@/hooks/usePagination";
 
 interface PaginationProps {
     currentPage: number;
-    totalCount: number;
+    totalCount?: number;
     pageSize: number;
     onPageChange: Dispatch<SetStateAction<number>>;
 }
 
-const Pagination: FC<PaginationProps> = ({ currentPage, totalCount, pageSize, onPageChange }) => {
+const Pagination: FC<PaginationProps> = ({ currentPage, totalCount = 0, pageSize, onPageChange }) => {
     const paginationRange = usePagination({ currentPage, totalCount, pageSize, siblingCount: 1 });
 
     const lastPage = paginationRange ? paginationRange[paginationRange.length - 1] : 1;

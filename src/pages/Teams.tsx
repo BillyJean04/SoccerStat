@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Container from "@/components/Container";
@@ -14,7 +14,11 @@ export default function TeamsPage() {
     const [teams, setTeams] = useState<Team[]>();
     const [currentPage, setCurrentPage] = useState(1);
 
-    const currentTableData = useCurrentTableData(teams ?? [], currentPage, 9);
+    const filteredData = useMemo(() => {
+        return teams?.filter((item) => item.name.toString().includes(search));
+    }, [search, teams]);
+
+    const currentTableData = useCurrentTableData(filteredData ?? [], currentPage, 9);
 
     useEffect(() => {
         getTeams()
@@ -45,8 +49,6 @@ export default function TeamsPage() {
         );
     }
 
-    const filteredData = teams?.filter((item) => item.name.toString().includes(search));
-
     return (
         <Container className="mt-10">
             <Input
@@ -56,36 +58,23 @@ export default function TeamsPage() {
                 onChange={(event) => setSearch(event.target.value)}
             />
             <div className="flex flex-row flex-wrap gap-3.5 my-10">
-                {search
-                    ? filteredData?.map(({ id, name, image }) => (
-                          <Card key={id} className="w-full md:w-[calc(49%-5px)] xl:w-[calc(32.9%-5px)]">
-                              <Link to={`/${id}`}>
-                                  <CardContent className="flex items-center flex-col gap-5 py-5">
-                                      <CardTitle>{name}</CardTitle>
-                                      <CardDescription>
-                                          <img alt="" className="w-[100px] h-[100px]" src={image} />
-                                      </CardDescription>
-                                  </CardContent>
-                              </Link>
-                          </Card>
-                      ))
-                    : currentTableData?.map(({ id, name, image }) => (
-                          <Card key={id} className="w-full md:w-[calc(49%-5px)] xl:w-[calc(32.9%-5px)]">
-                              <Link to={`${id}`}>
-                                  <CardContent className="flex items-center flex-col gap-5 py-5">
-                                      <CardTitle>{name}</CardTitle>
-                                      <CardDescription>
-                                          <img alt="" className="w-[100px] h-[100px]" src={image} />
-                                      </CardDescription>
-                                  </CardContent>
-                              </Link>
-                          </Card>
-                      ))}
+                {currentTableData?.map(({ id, name, image }) => (
+                    <Card key={id} className="w-full md:w-[calc(49%-5px)] xl:w-[calc(32.9%-5px)]">
+                        <Link to={`${id}`}>
+                            <CardContent className="flex items-center flex-col gap-5 py-5">
+                                <CardTitle>{name}</CardTitle>
+                                <CardDescription>
+                                    <img alt="" className="w-[100px] h-[100px]" src={image} />
+                                </CardDescription>
+                            </CardContent>
+                        </Link>
+                    </Card>
+                ))}
             </div>
             <Pagination
                 currentPage={currentPage}
                 pageSize={9}
-                totalCount={search ? currentTableData?.length : filteredData.length}
+                totalCount={search ? filteredData?.length : teams?.length}
                 onPageChange={(page) => setCurrentPage(page)}
             />
         </Container>
