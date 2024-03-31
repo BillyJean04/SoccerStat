@@ -11,10 +11,12 @@ function App() {
         <>
             <Header />
             <Routes>
-                <Route Component={LeaguesPage} path="/leagues" />
-                <Route Component={LeaguesCalendar} path={"/leagues/:leagueId"} />
-                <Route Component={TeamsPage} path="/teams" />
-                <Route Component={TeamsCalendar} path={"/teams/:teamId"} />
+                <Route path="/soccer-stat/">
+                    <Route Component={LeaguesPage} path="/leagues" />
+                    <Route Component={LeaguesCalendar} path={"/leagues/:leagueId"} />
+                    <Route Component={TeamsPage} path="/teams" />
+                    <Route Component={TeamsCalendar} path={"/teams/:teamId"} />
+                </Route>
             </Routes>
         </>
     );
