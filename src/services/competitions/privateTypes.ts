@@ -53,7 +53,7 @@ export interface CompetitionDataApi {
     competitions: Competition[];
 }
 
-export interface Matches {
+export interface Match {
     area: {
         id: number;
         name: string;
@@ -157,5 +157,5 @@ export interface MatchesCompetitionApi {
         type: string;
         emblem: string;
     };
-    matches: Matches[];
+    matches: Match[];
 }

@@ -16,7 +16,6 @@ export default function LeaguesPage() {
 
     const currentTableData = useCurrentTableData(competitions ?? [], currentPage, 9);
 
-    console.log(currentTableData);
     useEffect(() => {
         getCompetitions()
             .then((competitions) => setCompetitions(competitions))
