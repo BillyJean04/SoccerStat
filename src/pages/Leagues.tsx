@@ -59,7 +59,7 @@ export default function LeaguesPage() {
             <div className="flex flex-row flex-wrap gap-3.5 my-10">
                 {currentTableData?.map(({ id, name, area }) => (
                     <Card key={id} className="w-full md:w-[calc(49%-5px)] xl:w-[calc(32.9%-5px)]">
-                        <Link to={`${id}`}>
+                        <Link to={`leagues/${id}`}>
                             <CardContent className="flex items-center flex-col gap-5 py-5">
                                 <CardTitle>{name}</CardTitle>
                                 <CardDescription>{area.name}</CardDescription>

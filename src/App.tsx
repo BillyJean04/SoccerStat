@@ -11,7 +11,9 @@ function App() {
         <>
             <Header />
             <Routes>
-                <Route Component={LeaguesPage} path="/leagues" />
+                {["/", "/leagues"].map((path) => (
+                    <Route key={path} Component={LeaguesPage} path={path} />
+                ))}
                 <Route Component={LeaguesCalendar} path={"/leagues/:leagueId"} />
                 <Route Component={TeamsPage} path="/teams" />
                 <Route Component={TeamsCalendar} path={"/teams/:teamId"} />

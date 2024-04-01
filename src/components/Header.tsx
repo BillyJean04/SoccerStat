@@ -14,7 +14,7 @@ const menuItems = [
     {
         id: 1,
         title: "Лиги",
-        href: "/leagues",
+        href: "/",
     },
     {
         id: 2,
