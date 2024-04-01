@@ -18,7 +18,16 @@ export async function getTeamMatches(id: number, params?: { dateFrom?: string; d
         return transformMatchesData(data.matches);
     } catch (error: unknown) {
         if (error instanceof Error) {
-            throw new Error(error.message);
+            if (error.message.includes("You reached your request limit.")) {
+                throw new Error("Достигнут лимит на запросы. Попробуйте позже");
+            }
+            if (
+                error.message.includes(
+                    "The resource you are looking for is restricted and apparently not within your permissions",
+                )
+            ) {
+                throw new Error("Ресурс который вы ищете ограничен и по видимому не входит в ваши права доступа");
+            }
         }
     }
 }

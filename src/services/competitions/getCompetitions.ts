@@ -21,7 +21,9 @@ export async function getCompetitions() {
         })) satisfies Competition[];
     } catch (error: unknown) {
         if (error instanceof Error) {
-            throw new Error(error.message);
+            if (error.message.includes("You reached your request limit.")) {
+                throw new Error("Достигнут лимит на запросы. Попробуйте позже");
+            }
         }
     }
 }
